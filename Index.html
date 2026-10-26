@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atmos - Weather Dashboard</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0b1220;
+  color: #fff;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #29354b;
+}
+
+.logo {
+  font-size: 27px;
+  font-weight: bold;
+  color: #8db4ff;
+}
+
+.badge {
+  color: #62e6b8;
+  font-size: 12px;
+}
+
+.intro {
+  margin: 40px 0 25px;
+}
+
+.intro p {
+  color: #91a6c8;
+  margin-top: 10px;
+}
+
+h1 {
+  font-size: clamp(30px, 5vw, 45px);
+  margin-top: 12px;
+}
+
+h1 span {
+  color: #83aaff;
+}
+
+.search {
+  display: flex;
+  gap: 10px;
+  margin: 25px 0 15px;
+}
+
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid #34425c;
+  background: #142035;
+  color: white;
+  border-radius: 12px;
+  outline: none;
+  font-size: 15px;
+}
+
+button {
+  border: none;
+  background: #83aaff;
+  color: #0b1220;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+}
+
+#status {
+  color: #ffb8c7;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.location {
+  color: #91a6c8;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.hero {
+  background: linear-gradient(130deg, #1a2d4c, #203e62);
+  border: 1px solid #344866;
+  border-radius: 22px;
+  padding: 30px;
+  margin-top: 20px;
+}
+
+.label {
+  color: #9ab7ed;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  margin-bottom: 15px;
+}
+
+.city {
+  font-size: 28px;
+}
+
+.condition {
+  color: #b0c1dd;
+  margin-top: 8px;
+}
+
+.temperature {
+  font-size: 75px;
+  margin: 15px 0;
+}
+
+.weather-icon {
+  font-size: 55px;
+}
+
+.feels {
+  color: #b0c1dd;
+  font-size: 14px;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.card {
+  background: #121e31;
+  border: 1px solid #293750;
+  padding: 20px;
+  border-radius: 15px;
+  min-width: 0;
+}
+
+.card p {
+  color: #91a6c8;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.card h3 {
+  font-size: 23px;
+  overflow-wrap: anywhere;
+}
+
+.section {
+  background: #121e31;
+  border: 1px solid #293750;
+  border-radius: 18px;
+  padding: 22px;
+  margin-top: 20px;
+}
+
+.section h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.hourly {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.hour {
+  background: #192840;
+  border-radius: 12px;
+  text-align: center;
+  padding: 14px 4px;
+}
+
+.hour p {
+  color: #9aacc9;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.hour .icon {
+  font-size: 23px;
+  margin-bottom: 12px;
+}
+
+.hour h3 {
+  font-size: 17px;
+}
+
+.forecast-row {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 0;
+  border-bottom: 1px solid #293750;
+}
+
+.forecast-row:last-child {
+  border-bottom: none;
+}
+
+.forecast-condition {
+  color: #a9bad5;
+  font-size: 13px;
+}
+
+.forecast-temp {
+  text-align: right;
+  white-space: nowrap;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 0 15px;
+  color: #7f91ad;
+  font-size: 12px;
+}
+
+@media (max-width: 650px) {
+  body {
+    padding: 14px;
+  }
+
+  .hero {
+    padding: 23px;
+  }
+
+  .temperature {
+    font-size: 65px;
+  }
+
+  .details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hourly {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .forecast-row {
+    grid-template-columns: 0.8fr 1.3fr 0.8fr;
+    gap: 5px;
+  }
+
+  .forecast-condition {
+    font-size: 11px;
+  }
+
+  .search {
+    gap: 7px;
+  }
+
+  button {
+    padding: 0 15px;
+  }
+
+  .badge {
+    font-size: 10px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <div class="logo">☀ Atmos.</div>
+  <div class="badge">● LIVE WEATHER</div>
+</header>
+
+<div class="intro">
+  <p>YOUR PERSONAL WEATHER SPACE</p>
+  <h1>Weather, at a <span>glance.</span></h1>
+  <p>Discover the weather wherever you are.</p>
+
+  <form class="search" id="searchForm">
+    <input
+      id="cityInput"
+      type="text"
+      placeholder="Enter city name..."
+      value="Coimbatore"
+      aria-label="City name"
+      required
+    >
+    <button id="searchBtn" type="submit">Search</button>
+  </form>
+
+  <div id="status" role="status"></div>
+  <div class="location" id="location">📍 Loading location...</div>
+</div>
+
+<div id="weatherContent" aria-live="polite">
+  <section class="hero">
+    <div class="label">CURRENT CONDITIONS</div>
+    <h2 class="city">Loading weather...</h2>
+    <p class="condition">Please wait</p>
+    <div class="temperature">--°</div>
+    <p class="feels">Getting current weather...</p>
+  </section>
+</div>
+
+<footer>
+  Atmos Weather Dashboard · Powered by Open-Meteo
+</footer>
+
+</div>
+
+<script>
+const form = document.getElementById("searchForm");
+const input = document.getElementById("cityInput");
+const statusBox = document.getElementById("status");
+const locationBox = document.getElementById("location");
+const content = document.getElementById("weatherContent");
+const searchBtn = document.getElementById("searchBtn");
+
+function weatherInfo(code) {
+  if (code === 0) return ["☀️", "Clear sky"];
+  if ([1, 2].includes(code)) return ["🌤️", "Partly cloudy"];
+  if (code === 3) return ["☁️", "Overcast"];
+  if ([45, 48].includes(code)) return ["🌫️", "Foggy"];
+
+  if ([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code))
+    return ["🌧️", "Rain"];
+
+  if ([71,73,75,77,85,86].includes(code))
+    return ["❄️", "Snow"];
+
+  if ([95,96,99].includes(code))
+    return ["⛈️", "Thunderstorm"];
+
+  return ["🌤️", "Partly cloudy"];
+}
+
+function formatTime(date) {
+  return new Date(date).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    hour12: true
+  });
+}
+
+function dayName(date, index) {
+  if (index === 0) return "Today";
+
+  return new Date(date + "T12:00:00").toLocaleDateString(
+    "en-US",
+    { weekday: "long" }
+  );
+}
+
+async function loadWeather(cityName) {
+  searchBtn.disabled = true;
+  searchBtn.textContent = "Loading...";
+  statusBox.textContent = "";
+
+  try {
+    // Search for city
+    const geoResponse = await fetch(
+      "https://geocoding-api.open-meteo.com/v1/search?name=" +
+      encodeURIComponent(cityName) +
+      "&count=1&language=en&format=json"
+    );
+
+    if (!geoResponse.ok) {
+      throw new Error("Unable to search for this city.");
+    }
+
+    const geoData = await geoResponse.json();
+
+    if (!geoData.results || geoData.results.length === 0) {
+      throw new Error("City not found. Check the spelling.");
+    }
+
+    const city = geoData.results[0];
+
+    // Fetch weather data
+    const url =
+      "https://api.open-meteo.com/v1/forecast" +
+      "?latitude=" + city.latitude +
+      "&longitude=" + city.longitude +
+      "&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m" +
+      "&hourly=temperature_2m,precipitation_probability,weather_code" +
+      "&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max" +
+      "&timezone=auto&forecast_days=7";
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("Weather service is unavailable. Try again.");
+    }
+
+    const data = await response.json();
+
+    if (!data.current || !data.daily || !data.hourly) {
+      throw new Error("Weather data is incomplete. Please try again.");
+    }
+
+    renderWeather(city, data);
+
+  } catch (error) {
+    statusBox.textContent =
+      error.message || "Something went wrong. Please try again.";
+  } finally {
+    searchBtn.disabled = false;
+    searchBtn.textContent = "Search";
+  }
+}
+
+function renderWeather(city, data) {
+  const current = data.current;
+  const daily = data.daily;
+  const hourly = data.hourly;
+
+  const [icon, condition] = weatherInfo(current.weather_code);
+
+  locationBox.textContent =
+    "📍 " + city.name + ", " + (city.country || "");
+
+  const currentDate = new Date(current.time).toLocaleDateString(
+    "en-US",
+    { weekday: "long", month: "long", day: "numeric" }
+  );
+
+  let html = `
+    <section class="hero">
+      <div class="label">CURRENT CONDITIONS</div>
+      <div class="weather-icon">${icon}</div>
+      <h2 class="city">${city.name}</h2>
+      <p class="condition">${condition}</p>
+      <div class="temperature">${Math.round(current.temperature_2m)}°C</div>
+      <p class="feels">
+        Feels like ${Math.round(current.apparent_temperature)}°C
+        · ${currentDate}
+      </p>
+    </section>
+
+    <section class="details">
+      <div class="card">
+        <p>💧 HUMIDITY</p>
+        <h3>${current.relative_humidity_2m}%</h3>
+      </div>
+
+      <div class="card">
+        <p>💨 WIND SPEED</p>
+        <h3>${Math.round(current.wind_speed_10m)} <small>km/h</small></h3>
+      </div>
+
+      <div class="card">
+        <p>🌧️ PRECIPITATION</p>
+        <h3>${current.precipitation} <small>mm</small></h3>
+      </div>
+
+      <div class="card">
+        <p>🌡️ UV INDEX</p>
+        <h3>${daily.uv_index_max[0]}</h3>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>⏰ Hourly Forecast</h2>
+      <div class="hourly">
+  `;
+
+  let startIndex = hourly.time.findIndex(
+    time => time.slice(0, 13) >= current.time.slice(0, 13)
+  );
+
+  if (startIndex < 0) startIndex = 0;
+
+  for (let i = startIndex; i < Math.min(startIndex + 6, hourly.time.length); i++) {
+    const [hourIcon] = weatherInfo(hourly.weather_code[i]);
+
+    html += `
+      <div class="hour">
+        <p>${formatTime(hourly.time[i])}</p>
+        <div class="icon">${hourIcon}</div>
+        <h3>${Math.round(hourly.temperature_2m[i])}°</h3>
+        <p>💧 ${hourly.precipitation_probability[i] ?? 0}%</p>
+      </div>
+    `;
+  }
+
+  html += `
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>📅 7-Day Forecast</h2>
+  `;
+
+  daily.time.forEach((date, i) => {
+    const [dayIcon, dayCondition] = weatherInfo(daily.weather_code[i]);
+
+    html += `
+      <div class="forecast-row">
+        <strong>${dayName(date, i)}</strong>
+        <div class="forecast-condition">
+          ${dayIcon} ${dayCondition}
+        </div>
+        <div class="forecast-temp">
+          <strong>${Math.round(daily.temperature_2m_max[i])}°</strong>
+          <span style="color:#91a6c8">
+            / ${Math.round(daily.temperature_2m_min[i])}°
+          </span>
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+    </section>
+
+    <section class="section">
+      <h2>🌅 Sunrise & Sunset</h2>
+      <div class="details">
+        <div class="card">
+          <p>SUNRISE</p>
+          <h3>${formatTime(daily.sunrise[0])}</h3>
+        </div>
+        <div class="card">
+          <p>SUNSET</p>
+          <h3>${formatTime(daily.sunset[0])}</h3>
+        </div>
+        <div class="card">
+          <p>TODAY'S HIGH</p>
+          <h3>${Math.round(daily.temperature_2m_max[0])}°</h3>
+        </div>
+        <div class="card">
+          <p>TODAY'S LOW</p>
+          <h3>${Math.round(daily.temperature_2m_min[0])}°</h3>
+        </div>
+      </div>
+    </section>
+  `;
+
+  content.innerHTML = html;
+}
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const cityName = input.value.trim();
+
+  if (!cityName) {
+    statusBox.textContent = "Please enter a city name.";
+    return;
+  }
+
+  loadWeather(cityName);
+});
+
+// Load default city on startup
+loadWeather("Coimbatore");
+</script>
+
+</body>
+</html>
